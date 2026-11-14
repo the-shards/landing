@@ -1,0 +1,240 @@
+{
+  "spec_hash": "aa077256ff8d2a7ef20566cc9ee6b90b2f89b0c147ce1007c5aeb7dff795d170",
+  "spec": {
+    "version": 1,
+    "algorithm": "Seed commitment: SHA-256(server_seed). Stream: block(i)=HMAC-SHA256(server_seed, \"shards-roll-v1|\"+egg_id+\"|\"+client_seed+\"|\"+i) with i in decimal; words are consecutive 8-byte big-endian values of block(0)||block(1)||...; Uint64n(n) takes the next word w, skips it if w >= 2^64-(2^64 mod n), else returns w mod n. Hatch: if the player's pity target is of the egg's rarity and pity_counter+1 >= the receipt's pity_threshold the species is the target. Otherwise rarity = the tier whose cumulative units exceed Uint64n(total) in table[egg], then species = species[rarity][Uint64n(len)]. Stats, affinity and personality are not part of the stream.",
+    "total": 1000000000000,
+    "tiers": [
+      "common",
+      "uncommon",
+      "rare",
+      "epic",
+      "legendary"
+    ],
+    "table": {
+      "common": [
+        874899900000,
+        120000000000,
+        5000000000,
+        100000000,
+        100000
+      ],
+      "epic": [
+        5000000000,
+        80000000000,
+        300000000000,
+        605000000000,
+        10000000000
+      ],
+      "legendary": [
+        0,
+        20000000000,
+        300000000000,
+        620000000000,
+        60000000000
+      ],
+      "rare": [
+        50000000000,
+        250000000000,
+        619500000000,
+        80000000000,
+        500000000
+      ],
+      "uncommon": [
+        200000000000,
+        675995000000,
+        120000000000,
+        4000000000,
+        5000000
+      ]
+    },
+    "species": {
+      "common": [
+        "mini_raccoon",
+        "moss_rat",
+        "dust_sparrow",
+        "pebble_toad"
+      ],
+      "epic": [
+        "phoenix_chick",
+        "iron_golem_pup",
+        "void_cat",
+        "thunder_drake"
+      ],
+      "legendary": [
+        "star_wyrm",
+        "world_tree_spirit",
+        "eclipse_hound",
+        "aurora_dragon"
+      ],
+      "rare": [
+        "storm_lynx",
+        "crystal_stag",
+        "shadow_imp",
+        "tide_serpent"
+      ],
+      "uncommon": [
+        "ember_fox",
+        "frost_hare",
+        "glint_beetle",
+        "ash_owl"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "name": "common egg, no client seed",
+      "server_seed": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+      "commitment": "ae216c2ef5247a3782c135efa279a3e4cdc61094270f5d2be58c6204b7a612c9",
+      "egg_id": "egg-0001",
+      "client_seed": "",
+      "egg": "common",
+      "pity_target": "",
+      "pity_counter": 0,
+      "pity_threshold": 20,
+      "rarity": "common",
+      "species": "moss_rat",
+      "by_pity": false,
+      "first_words": [
+        "14171639695693665463",
+        "4764590227192687957",
+        "8831769427704846943",
+        "4939273605921490108",
+        "14457426250374045785",
+        "13735920444451765730"
+      ]
+    },
+    {
+      "name": "common egg, typed client seed",
+      "server_seed": "090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728",
+      "commitment": "ab396304d00a3ee7e859b4962f32db0f463f8ad6b8b22b977a1442e7715c3610",
+      "egg_id": "egg-0002",
+      "client_seed": "lucky-seven",
+      "egg": "common",
+      "pity_target": "",
+      "pity_counter": 0,
+      "pity_threshold": 20,
+      "rarity": "common",
+      "species": "pebble_toad",
+      "by_pity": false,
+      "first_words": [
+        "7095014277580189044",
+        "13730043264536046779",
+        "15939403468606754446",
+        "12910838179003574259",
+        "6597783406822075257",
+        "6964569542652379712"
+      ]
+    },
+    {
+      "name": "rare egg",
+      "server_seed": "1112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f30",
+      "commitment": "0477fd8e15bc68a8d1ce22781fdb90deddd7cdf657e527f95fc98bbe6918337e",
+      "egg_id": "7d0e8d8e-5d2b-4a3a-9f55-0a1b2c3d4e5f",
+      "client_seed": "A.b_c:1-2",
+      "egg": "rare",
+      "pity_target": "",
+      "pity_counter": 0,
+      "pity_threshold": 40,
+      "rarity": "rare",
+      "species": "crystal_stag",
+      "by_pity": false,
+      "first_words": [
+        "14409080682313992323",
+        "1016524720199012213",
+        "411043051166092746",
+        "15948650023357969283",
+        "3840239824096865595",
+        "17523886426120829253"
+      ]
+    },
+    {
+      "name": "epic egg",
+      "server_seed": "2122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f40",
+      "commitment": "7eee5800ddcd3b3cc9fd047831cd8536e3c3f57f44d746f515da93f048ee9e91",
+      "egg_id": "egg-epic",
+      "client_seed": "x",
+      "egg": "epic",
+      "pity_target": "",
+      "pity_counter": 0,
+      "pity_threshold": 60,
+      "rarity": "rare",
+      "species": "shadow_imp",
+      "by_pity": false,
+      "first_words": [
+        "3194762268311960512",
+        "9937782217889403122",
+        "1323347100824839270",
+        "5079705219704849488",
+        "15254543932407403800",
+        "15097962089743057533"
+      ]
+    },
+    {
+      "name": "legendary egg",
+      "server_seed": "3132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f50",
+      "commitment": "fbc974481bd2003e2d7b74f87e5e7ac36b2ef340492ec827703b415c662b5840",
+      "egg_id": "egg-leg",
+      "client_seed": "legend",
+      "egg": "legendary",
+      "pity_target": "",
+      "pity_counter": 0,
+      "pity_threshold": 100,
+      "rarity": "epic",
+      "species": "void_cat",
+      "by_pity": false,
+      "first_words": [
+        "7431595574431972042",
+        "3568621572666926162",
+        "9024662923880409565",
+        "12216871636204542813",
+        "5367199486070194211",
+        "6658112037024548849"
+      ]
+    },
+    {
+      "name": "pity not yet reached",
+      "server_seed": "4142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f60",
+      "commitment": "ce55a9a1d046d0913b70b41256f6415505a327af3f1941289e61f9636b46f794",
+      "egg_id": "egg-pity-a",
+      "client_seed": "p1",
+      "egg": "rare",
+      "pity_target": "storm_lynx",
+      "pity_counter": 0,
+      "pity_threshold": 40,
+      "rarity": "rare",
+      "species": "tide_serpent",
+      "by_pity": false,
+      "first_words": [
+        "9246717565746192020",
+        "76746858366329259",
+        "3580399790165259392",
+        "9913172693668477419",
+        "18371356031587756007",
+        "729561355934908380"
+      ]
+    },
+    {
+      "name": "pity reached",
+      "server_seed": "5152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f70",
+      "commitment": "c60ee4abc220547b7b1415b75f5e63fb06464b0355ed44c225e006fb4d4f66b3",
+      "egg_id": "egg-pity-b",
+      "client_seed": "p2",
+      "egg": "rare",
+      "pity_target": "storm_lynx",
+      "pity_counter": 39,
+      "pity_threshold": 40,
+      "rarity": "rare",
+      "species": "storm_lynx",
+      "by_pity": true,
+      "first_words": [
+        "8957335133614520226",
+        "12683432641211377582",
+        "5465333298017903545",
+        "1422653617793205403",
+        "11804119099985233658",
+        "12283038421743421214"
+      ]
+    }
+  ]
+}
