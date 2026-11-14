@@ -1,62 +1,151 @@
 <!doctype html>
-<html lang="en" style="background:#161826">
+<!--
+  SITE CONFIG. Every URL and placeholder worth changing is listed here; search this file for TODO and [BRACKETS].
+
+  Google Form (playtest sign-up):  https://forms.gle/JztENTASrQ2obUgK8
+  Launcher download:               https://api.sandbox.theshardsgame.com/releases/files/TheShardsLauncher.exe
+                                   TODO: switch to the production API address when there is one.
+  Launcher version, size, SHA-256: written by `node scripts/sync-launcher.js` (see README). Re-run it when the launcher changes.
+  Discord (feedback and Contact):  https://discord.gg/fsArCAUU5   (join requests are approved by the team)
+  Legal documents:                 not written yet, the cards say "Coming soon". When a PDF is ready, put it in legal/ (see legal/README.md),
+                                   replace "Coming soon" with "Last updated <date>" and add <a class="link-row" href="/legal/<file>.pdf" target="_blank" rel="noopener">Open PDF</a>.
+  Playtest dates: March 10 to April 1, 2027 (appears twice: the intro and "What to expect").
+
+  The fonts only have plain ASCII (32 to 126): no accents, curly quotes, dashes or middle dots. Keep copy to ASCII.
+-->
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#161826">
-  <meta name="description" content="The Shards is a place where any person can create their own MMORPG, and where players can step into every world that has been forged.">
   <title>The Shards</title>
-  <link rel="icon" type="image/png" href="/assets/logo.png">
-  <link rel="stylesheet" href="/assets/nocturne.css">
-  <link rel="stylesheet" href="/assets/site.css">
+  <meta name="description" content="The Shards is a gem: a place where any person can create their own MMORPG, and where players can step into every world that has been forged.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Shards">
+  <meta property="og:description" content="The Shards is a gem: a place where any person can create their own MMORPG, and where players can step into every world that has been forged.">
+  <meta property="og:image" content="https://theshardsgame.com/assets/logo.png">
+  <meta property="og:url" content="https://theshardsgame.com/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/Pixelwick.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/shards.css">
 </head>
 <body>
-<div style="min-height:100vh;background:var(--color-bg);overflow-x:hidden">
+<a class="skip" href="#top">Skip to content</a>
 
-  <header style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px clamp(20px,5vw,72px);position:relative;z-index:2">
-    <div style="display:flex;align-items:center;gap:10px">
-      <img src="assets/logo.png" alt="" style="width:34px;height:auto;display:block;image-rendering:pixelated">
-      <span style="font-family:var(--font-heading);font-size:14px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-text)">The Shards</span>
+<header class="container site-header">
+  <a class="brand" href="#top"><img src="/assets/logo.png" alt="">The Shards</a>
+  <nav class="nav" aria-label="Main">
+    <a href="/fairness/">Fair rolls</a>
+    <a href="#download">Launcher</a>
+    <a href="#legal">Terms</a>
+    <a class="nav-cta" href="#playtest">Join the playtest</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="container hero" aria-labelledby="hero-title">
+    <div class="hero-art">
+      <img src="/assets/logo.png" alt="The Shards logo: a crown above crossed broken chains and green leaves">
     </div>
-    <div style="display:flex;align-items:center;gap:20px">
-      <a href="/fairness/" style="font-size:13px">Fair rolls</a>
-      <a href="https://forms.gle/JztENTASrQ2obUgK8" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:13px">Join the playtest</a>
-    </div>
-  </header>
-
-  <section style="position:relative;padding:clamp(32px,6vw,72px) clamp(20px,5vw,72px) clamp(64px,9vw,120px)">
-    <div style="position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:min(1100px,140vw);height:700px;background:radial-gradient(closest-side, var(--color-accent-900), transparent 72%);opacity:0.85;pointer-events:none"></div>
-    <div class="om-2up" style="position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);gap:clamp(28px,5vw,72px);align-items:center;max-width:1240px;margin:0 auto">
-
-      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:22px;min-width:0">
-        <span class="tag tag-outline" style="letter-spacing:0.12em;text-transform:uppercase;font-size:11px">Closed playtest · wave one</span>
-        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(38px,5.4vw,68px);line-height:1.02;letter-spacing:-0.02em;margin:0;text-wrap:pretty">Every player a world‑forger.</h1>
-        <p style="margin:0;max-width:46ch;font-size:clamp(16px,1.5vw,19px);line-height:1.6;color:var(--color-neutral-300);text-wrap:pretty">The Shards is a gem: a place where any person can create their own MMORPG, and where players can step into every world that has been forged.</p>
-        <div style="width:min(420px,100%);height:1px;background:linear-gradient(to right, transparent, var(--color-divider) 48px, var(--color-divider) calc(100% - 48px), transparent)"></div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
-          <a href="https://forms.gle/JztENTASrQ2obUgK8" target="_blank" rel="noopener" class="btn btn-primary">Join the playtest</a>
-          <span style="font-size:13px;color:var(--color-neutral-400)">Closed waves. No spam, one mail per wave.</span>
-        </div>
+    <div class="hero-text">
+      <div class="badge">CLOSED PLAYTEST - WAVE ONE</div>
+      <h1 id="hero-title" class="display-h1">Every player a world-forger.</h1>
+      <p>The Shards is a gem: a place where any person can create their own MMORPG, and where players can step into every world that has been forged.</p>
+      <div class="button-row">
+        <a class="btn btn-fill" href="#playtest">Join the playtest</a>
+        <a class="btn btn-outline" href="#download">Get the launcher</a>
       </div>
-
-      <div class="om-hero-art" style="min-width:0;display:flex;justify-content:center">
-        <img src="assets/logo.png" alt="The Shards" style="width:100%;max-width:520px;height:auto;display:block;image-rendering:pixelated;animation:shard-float 7s ease-in-out infinite;filter:drop-shadow(0 24px 60px rgba(0,0,0,0.55))">
-      </div>
-
+      <div class="muted">Closed waves. No spam, one mail per wave.</div>
     </div>
   </section>
 
-  <footer style="padding:28px clamp(20px,5vw,72px) 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;border-top:1px solid var(--color-divider)">
-    <span style="font-size:13px;color:var(--color-neutral-400)">The Shards</span>
-    <span style="display:flex;flex-wrap:wrap;gap:20px;font-size:13px;color:var(--color-neutral-400)">
-      <a href="/fairness/">Fair rolls: check any egg</a>
-      <span>Made by gamers for gamers</span>
-    </span>
-  </footer>
+  <section id="playtest" class="band band-both" aria-labelledby="playtest-title">
+    <div class="container section-inner">
+      <div class="section-head">
+        <h2 id="playtest-title" class="display-h2">Join the playtest</h2>
+        <p>Sign up with our Google Form. Closed waves. No spam, one mail per wave. Wave one runs from March 10 to April 1, 2027.</p>
+      </div>
+      <div class="card-row">
+        <div class="card on-bg shadow pad-32 wide">
+          <div class="card-title">Sign up on Google Forms</div>
+          <div class="body">Closed waves. No spam, one mail per wave.</div>
+          <a class="btn btn-fill self-start" href="https://forms.gle/JztENTASrQ2obUgK8" target="_blank" rel="noopener noreferrer">Open the signup form</a>
+          <div class="muted">By signing up you agree to the <a href="#legal">Terms and Conditions</a> and the <a href="#legal">Privacy Policy</a>.</div>
+        </div>
+        <div class="card pad-32">
+          <div class="card-title">What to expect</div>
+          <div class="body">Enter realms, fight enemies, gather materials and leave with your loot. Hatch, raise and trade companions.</div>
+          <div class="body">Wave one runs for about three weeks, from March 10 to April 1, 2027.</div>
+          <div class="body">Send feedback on our <a href="https://discord.gg/fsArCAUU5" target="_blank" rel="noopener noreferrer">Discord</a>. The team approves join requests.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  
+  <section id="download" class="container" aria-labelledby="download-title">
+    <div class="section-head">
+      <h2 id="download-title" class="display-h2">Download the launcher</h2>
+      <p>Download the launcher to play. The game is only available for Windows right now.</p>
+    </div>
+    <div class="card-row gap-24">
+      <div class="card on-panel shadow pad-28 download">
+        <div class="card-title">Windows</div>
+        <div class="body">Launcher v<span data-launcher="version">0.1.0</span> / <span data-launcher="size">6.5</span> MB</div>
+        <a class="btn btn-fill self-start" data-launcher="link" href="https://api.sandbox.theshardsgame.com/releases/files/TheShardsLauncher.exe">Download</a>
+        <div class="muted break">SHA-256: <span data-launcher="sha256">cdec36062a163728fefdc01d8863a63c8d4aa24b44a254dec400ed893507842f</span></div>
+      </div>
+    </div>
+    <div class="card pad-28">
+      <div class="card-title">System requirements</div>
+      <div class="body">Windows 10 or 11, 64-bit. A graphics card that supports OpenGL 3.3. About 250 MB of free disk space. 1 GB of RAM. An internet connection: the game is online only.</div>
+    </div>
+  </section>
 
-</div>
+  <section id="legal" class="band" aria-labelledby="legal-title">
+    <div class="container section-inner">
+      <div class="section-head">
+        <h2 id="legal-title" class="display-h2">Terms and policies</h2>
+        <p>Read these before you play. Each document opens as a PDF.</p>
+      </div>
+      <div class="card-row gap-24">
+        <div class="card on-bg pad-28">
+          <div class="card-title">Terms and Conditions</div>
+          <div class="muted">Coming soon</div>
+        </div>
+        <div class="card on-bg pad-28">
+          <div class="card-title">Privacy Policy</div>
+          <div class="muted">Coming soon</div>
+        </div>
+        <div class="card on-bg pad-28">
+          <div class="card-title">Playtest Agreement</div>
+          <div class="muted">Coming soon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-left">
+      <div class="brand">The Shards</div>
+      <div class="muted">Copyright 2026 Shards. All rights reserved.</div>
+      <div class="footer-links">
+        <a class="link-row" href="#legal">Terms</a>
+        <a class="link-row" href="#legal">Privacy</a>
+        <a class="link-row" href="https://discord.gg/fsArCAUU5" target="_blank" rel="noopener noreferrer">Contact</a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <a class="link-row" href="/fairness/">Fair rolls: check any egg</a>
+      <span class="slogan">Made by gamers for gamers</span>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

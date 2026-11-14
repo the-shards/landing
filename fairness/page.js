@@ -47,7 +47,7 @@ function showResult(out) {
     li.className = check.ok ? 'pass' : 'fail';
     const mark = document.createElement('span');
     mark.className = 'mark';
-    mark.textContent = check.ok ? '✓' : '✗';
+    mark.textContent = check.ok ? '[OK]' : '[X]';
     const text = document.createElement('span');
     text.textContent = check.text;
     li.append(mark, text);
