@@ -22,6 +22,7 @@ walk(root);
 
 // Local references in a file: src="/x", href="/x" in HTML, url(/x) in CSS.
 export function localReferences(text, isHtml) {
+  if (isHtml) text = text.replace(/<!--[\s\S]*?-->/g, ''); // an example link in a comment is not a reference
   const refs = [];
   const patterns = isHtml ? [/(?:src|href)="(\/[^"#?]*)"/g] : [/url\(\s*['"]?(\/[^'")#?]*)/g];
   for (const re of patterns) for (const m of text.matchAll(re)) refs.push(m[1]);

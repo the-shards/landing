@@ -38,9 +38,14 @@ Approved 2026-11-14 (colours voted). Tokens, fonts and components are all in `as
 
 `npm test` enforces these (`test/site.test.js`), so a change that breaks one fails loudly. The one addition to the approved palette is a soft red (`--fail`) for a failed check on the fair-rolls page.
 
-## Placeholders
+## Content that is not final
 
-Every unfilled value is a `[BRACKET]` on the page and is listed in the comment at the top of `index.html`: `[PLAYTEST DATES]`, the three "What to expect" lines, `[MINIMUM AND RECOMMENDED SPECS]`, `[DATE]` for each document, `[YEAR]`, `[STUDIO NAME]` and the contact link. Fill them in place; do not invent copy.
+No `[BRACKET]` placeholders are left on the page (`npm test` fails if one comes back). What is a stand-in:
+
+- **Legal documents.** The three cards say "Coming soon" and have no PDF link, because the documents are not written yet. When one is ready, put it in `legal/` (names in `legal/README.md`), replace "Coming soon" with "Last updated <date>" and add the "Open PDF" link (the markup is in the comment at the top of `index.html`).
+- **System requirements.** Windows 10 or 11 64-bit, OpenGL 3.3, about 250 MB of disk and 1 GB of RAM. The RAM figure is an estimate, not a measurement: confirm it by running the stack.
+- **Playtest dates and contact.** March 10 to April 1, 2027 (in the intro and under "What to expect"); Discord is both the feedback and the Contact link.
+- **Launcher address.** It points at the sandbox API; switch it when there is a production API (see below).
 
 ## The launcher download
 

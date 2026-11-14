@@ -88,8 +88,8 @@ test('the page keeps every section and the links the brief names', () => {
   assert.ok(pages['fairness/index.html'].includes('id="odds-table"') && pages['fairness/index.html'].includes('id="verify-btn"'), 'the odds table and the verifier are still there');
 });
 
-test('no third-party requests: the only outside addresses are the form, the API and the vectors on GitHub', () => {
-  const allowed = new Set(['forms.gle', 'api.sandbox.theshardsgame.com', 'github.com', 'theshardsgame.com']);
+test('no third-party requests: the only outside addresses are the form, the API, Discord and the vectors on GitHub', () => {
+  const allowed = new Set(['forms.gle', 'api.sandbox.theshardsgame.com', 'github.com', 'theshardsgame.com', 'discord.gg']);
   for (const [name, html] of Object.entries(pages)) {
     assert.ok(!/<script[^>]*\ssrc="https?:/.test(html), `${name}: no external scripts`);
     assert.ok(!/<link[^>]*href="https?:\/\/(?!theshardsgame\.com)/.test(html.replace(/<!--[\s\S]*?-->/g, '')), `${name}: no external stylesheets or fonts`);
@@ -122,5 +122,14 @@ test('sync-launcher describes and patches the card', () => {
 
 test('local references: pages, stylesheet and fonts', () => {
   assert.deepEqual(localReferences('<a href="/x/">k</a><img src="/a.png"><a href="#top">', true), ['/x/', '/a.png']);
+  assert.deepEqual(localReferences('<!-- <a href="/legal/x.pdf"> --><a href="/y/">', true), ['/y/']);
   assert.deepEqual(localReferences("src: url(/assets/f.woff2) format('woff2'), url('/assets/f.ttf');", false), ['/assets/f.woff2', '/assets/f.ttf']);
+});
+
+test('no placeholder is left on the page', () => {
+  for (const [name, html] of Object.entries(pages)) {
+    const left = [...visibleText(html).matchAll(/\[[A-Z][A-Z0-9 ]{2,}\]/g)].map((m) => m[0]);
+    assert.deepEqual(left, [], `${name} still has placeholders: ${left.join(' ')}`);
+  }
+  assert.ok(!/href="#"/.test(pages['index.html'].replace(/<!--[\s\S]*?-->/g, '')), 'no link that goes nowhere');
 });
