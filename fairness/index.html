@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" style="background:#161826">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#161826">
+  <meta name="description" content="Every companion egg in The Shards is rolled from a secret the game commits to before you hatch it. Check any roll yourself.">
+  <title>Fair rolls · The Shards</title>
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="stylesheet" href="/assets/nocturne.css">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/fairness/fairness.css">
+</head>
+<body>
+<div class="page">
+
+  <header class="top">
+    <a class="brand" href="/">
+      <img src="/assets/logo.png" alt="" width="34" height="34">
+      <span>The Shards</span>
+    </a>
+    <a href="https://forms.gle/JztENTASrQ2obUgK8" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:13px">Join the playtest</a>
+  </header>
+
+  <main class="wrap">
+
+    <section class="intro">
+      <span class="tag tag-outline kicker">Fair rolls</span>
+      <h1>Every egg, provably fair.</h1>
+      <p class="lead">Companion eggs are a gamble, so you should not have to take our word for the odds. Every egg is sealed with a secret the game cannot change after you buy it. When it hatches the secret is revealed, and anyone can re-run the roll and see that the companion is the one the published odds produce.</p>
+    </section>
+
+    <section>
+      <h2>How an egg is rolled</h2>
+      <ol class="steps">
+        <li>
+          <h3>The game seals the egg</h3>
+          <p>When you buy an egg the game picks a secret number and shows you only its fingerprint, the <strong>seal</strong> (a SHA-256 hash). A hash cannot be reversed, but it cannot be changed either: the game is now bound to that secret.</p>
+        </li>
+        <li>
+          <h3>You add your own seed</h3>
+          <p>When you hatch, your game adds a random seed of its own (or one you type). The game did not know it when it sealed the egg, so it could not have chosen a secret that suits it.</p>
+        </li>
+        <li>
+          <h3>The roll</h3>
+          <p>The companion's rarity and species are drawn from the secret and your seed, using the exact odds below and nothing else. Same inputs, same result, every time, on any computer.</p>
+        </li>
+        <li>
+          <h3>The secret is revealed</h3>
+          <p>Your roll receipt shows the secret. Its hash must equal the seal you saw at purchase, and re-running the roll must give the companion you got. If either is off, you can see it.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>What is proven, and what is not</h2>
+      <div class="two">
+        <div class="card">
+          <h3 class="card-title">Proven by this page</h3>
+          <ul class="plain">
+            <li>The <strong>rarity</strong> of the companion an egg hatches.</li>
+            <li>Which <strong>species</strong> it is, including when your pity pick decides it.</li>
+            <li>That the game used the secret it sealed at purchase, and the odds published here.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Rolled privately</h3>
+          <ul class="plain">
+            <li>Stats, affinity and personality are rolled by the game inside their published ranges and stay private, so they are not part of this check.</li>
+            <li>An egg bought before this feature has no seal and cannot be verified.</li>
+            <li>This proves the roll was made as published. It does not prove the game picks fair prices, which are shown in the store.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The odds</h2>
+      <p class="text-muted">Exact chances, read from the same file the verifier below uses. Each row is an egg, each column the companion it can hatch into.</p>
+      <div class="table-wrap">
+        <table class="table" id="odds-table" aria-live="polite">
+          <caption class="sr">Chance of each companion rarity, by egg</caption>
+          <tbody><tr><td>Loading the published odds...</td></tr></tbody>
+        </table>
+      </div>
+      <noscript><p class="text-muted">The table needs JavaScript. The raw numbers are in <a href="/fairness/spec.json">spec.json</a>.</p></noscript>
+      <p class="text-muted small" id="spec-line"></p>
+    </section>
+
+    <section id="verify">
+      <h2>Check a roll</h2>
+      <p>In the game, open the companion panel (P) and press <strong>Roll receipt</strong> on a companion you hatched. That copies the receipt. Paste it here.</p>
+      <label class="sr" for="receipt">Roll receipt</label>
+      <textarea id="receipt" class="input" rows="11" spellcheck="false" placeholder='{ "version": 1, "egg_id": "...", "commitment": "...", "server_seed": "...", ... }'></textarea>
+      <div class="actions">
+        <button class="btn btn-primary" id="verify-btn" type="button">Verify this roll</button>
+        <button class="btn btn-ghost" id="sample-btn" type="button">Try a sample receipt</button>
+      </div>
+      <div id="result" class="result" role="status" aria-live="polite" hidden></div>
+      <p class="text-muted small">Everything runs in your browser: the receipt is not sent anywhere.</p>
+    </section>
+
+    <section>
+      <h2>Check it without trusting this page</h2>
+      <p>The whole scheme is a few lines, so you can re-implement it in any language. The server's own tests write <a href="https://github.com/the-shards/landing/blob/main/test/vectors.json">test vectors</a>, and this page's verifier is tested against them.</p>
+      <details>
+        <summary>The exact rule</summary>
+        <pre class="code" id="algorithm">Loading...</pre>
+      </details>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <span>The Shards</span>
+    <span><a href="/">Home</a> · Made by gamers for gamers</span>
+  </footer>
+
+</div>
+<script type="module" src="/fairness/page.js"></script>
+</body>
+</html>

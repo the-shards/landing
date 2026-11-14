@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "spec_hash": "aa077256ff8d2a7ef20566cc9ee6b90b2f89b0c147ce1007c5aeb7dff795d170",
+  "spec": {
+    "version": 1,
+    "algorithm": "Seed commitment: SHA-256(server_seed). Stream: block(i)=HMAC-SHA256(server_seed, \"shards-roll-v1|\"+egg_id+\"|\"+client_seed+\"|\"+i) with i in decimal; words are consecutive 8-byte big-endian values of block(0)||block(1)||...; Uint64n(n) takes the next word w, skips it if w >= 2^64-(2^64 mod n), else returns w mod n. Hatch: if the player's pity target is of the egg's rarity and pity_counter+1 >= the receipt's pity_threshold the species is the target. Otherwise rarity = the tier whose cumulative units exceed Uint64n(total) in table[egg], then species = species[rarity][Uint64n(len)]. Stats, affinity and personality are not part of the stream.",
+    "total": 1000000000000,
+    "tiers": [
+      "common",
+      "uncommon",
+      "rare",
+      "epic",
+      "legendary"
+    ],
+    "table": {
+      "common": [
+        874899900000,
+        120000000000,
+        5000000000,
+        100000000,
+        100000
+      ],
+      "epic": [
+        5000000000,
+        80000000000,
+        300000000000,
+        605000000000,
+        10000000000
+      ],
+      "legendary": [
+        0,
+        20000000000,
+        300000000000,
+        620000000000,
+        60000000000
+      ],
+      "rare": [
+        50000000000,
+        250000000000,
+        619500000000,
+        80000000000,
+        500000000
+      ],
+      "uncommon": [
+        200000000000,
+        675995000000,
+        120000000000,
+        4000000000,
+        5000000
+      ]
+    },
+    "species": {
+      "common": [
+        "mini_raccoon",
+        "moss_rat",
+        "dust_sparrow",
+        "pebble_toad"
+      ],
+      "epic": [
+        "phoenix_chick",
+        "iron_golem_pup",
+        "void_cat",
+        "thunder_drake"
+      ],
+      "legendary": [
+        "star_wyrm",
+        "world_tree_spirit",
+        "eclipse_hound",
+        "aurora_dragon"
+      ],
+      "rare": [
+        "storm_lynx",
+        "crystal_stag",
+        "shadow_imp",
+        "tide_serpent"
+      ],
+      "uncommon": [
+        "ember_fox",
+        "frost_hare",
+        "glint_beetle",
+        "ash_owl"
+      ]
+    }
+  }
+}

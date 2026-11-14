@@ -1,0 +1,9 @@
+html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
+  a { color: var(--color-accent-300); text-decoration: none; }
+  a:hover { color: var(--color-accent-200); }
+  @keyframes shard-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @media (max-width: 880px) {
+    .om-2up { grid-template-columns: minmax(0,1fr) !important; }
+    .om-hero-art { order: -1; }
+  }

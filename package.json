@@ -1,0 +1,12 @@
+{
+  "name": "the-shards-landing",
+  "private": true,
+  "type": "module",
+  "description": "Landing site and fair-roll verifier for The Shards (static files, no build step).",
+  "scripts": {
+    "test": "node --test test/verify.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
