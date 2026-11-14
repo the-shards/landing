@@ -12,7 +12,10 @@
 //   Uint64n(n) = next word w; skip it if w >= 2^64 - (2^64 mod n), else w mod n
 //   hatch      = pity target if pity_counter + 1 >= pity_threshold, else
 //                tier from Uint64n(total) against table[egg], species from Uint64n(len(species[tier]))
-// Stats, affinity and personality are rolled privately and are not part of the stream.
+//   stats      = after the species, for each name in stat_names: low + Uint64n(high - low + 1) with
+//                [low, high] = stat_range[rarity] (just low when high <= low)
+// The first client seed the game receives for an egg is locked on it. Affinity and personality are
+// rolled privately and are not part of the stream.
 
 const STREAM_LABEL = 'shards-roll-v1';
 const TWO64 = 1n << 64n;
@@ -74,14 +77,25 @@ export class RollStream {
   }
 }
 
-/** Which species a hatch gives, given the published rules and the receipt's inputs. */
+/** The four stats the stream gives after the species, in the spec's order. */
+async function replayStats(spec, stream, rarity) {
+  const [lo, hi] = spec.stat_range[rarity];
+  const stats = {};
+  for (const name of spec.stat_names) {
+    stats[name] = hi <= lo ? lo : lo + Number(await stream.uint64n(hi - lo + 1));
+  }
+  return stats;
+}
+
+/** Which species and stats a hatch gives, given the published rules and the receipt's inputs. */
 export async function replayRoll(spec, input) {
   const { serverSeed, eggId, clientSeed, egg, pityTarget, pityCounter, pityThreshold } = input;
   const tierOfSpecies = (id) => spec.tiers.find((t) => (spec.species[t] || []).includes(id));
-  if (pityTarget && tierOfSpecies(pityTarget) === egg && pityCounter + 1 >= pityThreshold) {
-    return { rarity: egg, species: pityTarget, byPity: true };
-  }
   const stream = new RollStream(serverSeed, eggId, clientSeed);
+  if (pityTarget && tierOfSpecies(pityTarget) === egg && pityCounter + 1 >= pityThreshold) {
+    // The pity pick decides the species without drawing; the stats still come from the stream.
+    return { rarity: egg, species: pityTarget, byPity: true, stats: await replayStats(spec, stream, egg) };
+  }
   const row = spec.table[egg];
   if (!row) throw new Error(`unknown egg rarity "${egg}"`);
   const pick = await stream.uint64n(spec.total);
@@ -96,7 +110,7 @@ export async function replayRoll(spec, input) {
   }
   const pool = spec.species[rarity] || [];
   const species = pool[Number(await stream.uint64n(pool.length))];
-  return { rarity, species, byPity: false };
+  return { rarity, species, byPity: false, stats: await replayStats(spec, stream, rarity) };
 }
 
 // Go's encoding/json writes < > & and the two line separators as \u escapes, which is part of the
@@ -120,6 +134,8 @@ export function canonicalSpecJson(spec) {
     tiers: spec.tiers,
     table: sorted(spec.table),
     species: sorted(spec.species),
+    stat_names: spec.stat_names,
+    stat_range: sorted(spec.stat_range),
   });
 }
 
@@ -186,10 +202,13 @@ export async function verifyReceipt(published, receipt) {
     add('replay', false, `The roll could not be replayed: ${e.message}`);
     return fail();
   }
-  const same = replay.rarity === result.rarity && replay.species === result.species && replay.byPity === Boolean(result.by_pity);
+  const claimed = result.stats || {};
+  const statText = (s) => spec.stat_names.map((n) => `${n} ${s[n]}`).join(', ');
+  const statsSame = spec.stat_names.every((n) => replay.stats[n] === claimed[n]);
+  const same = replay.rarity === result.rarity && replay.species === result.species && replay.byPity === Boolean(result.by_pity) && statsSame;
   add('replay', same, same
-    ? `Replaying the roll gives a ${replay.rarity} ${replay.species}${replay.byPity ? ' (guaranteed by the pity pick)' : ''}, exactly what hatched.`
-    : `Replaying the roll gives a ${replay.rarity} ${replay.species}${replay.byPity ? ' (pity)' : ''}, but the receipt says ${result.rarity} ${result.species}.`);
+    ? `Replaying the roll gives a ${replay.rarity} ${replay.species}${replay.byPity ? ' (guaranteed by the pity pick)' : ''} with ${statText(replay.stats)}, exactly what hatched.`
+    : `Replaying the roll gives a ${replay.rarity} ${replay.species}${replay.byPity ? ' (pity)' : ''} with ${statText(replay.stats)}, but the receipt says ${result.rarity} ${result.species} with ${statText(claimed)}.`);
 
   return { ok: checks.every((c) => c.ok), checks };
 }

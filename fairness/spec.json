@@ -1,9 +1,9 @@
 {
-  "version": 1,
-  "spec_hash": "aa077256ff8d2a7ef20566cc9ee6b90b2f89b0c147ce1007c5aeb7dff795d170",
+  "version": 2,
+  "spec_hash": "6d7d05694d3c38cdcd3efa5ead5eb9f6684a586db746a9edc14a3152967cc4f3",
   "spec": {
-    "version": 1,
-    "algorithm": "Seed commitment: SHA-256(server_seed). Stream: block(i)=HMAC-SHA256(server_seed, \"shards-roll-v1|\"+egg_id+\"|\"+client_seed+\"|\"+i) with i in decimal; words are consecutive 8-byte big-endian values of block(0)||block(1)||...; Uint64n(n) takes the next word w, skips it if w >= 2^64-(2^64 mod n), else returns w mod n. Hatch: if the player's pity target is of the egg's rarity and pity_counter+1 >= the receipt's pity_threshold the species is the target. Otherwise rarity = the tier whose cumulative units exceed Uint64n(total) in table[egg], then species = species[rarity][Uint64n(len)]. Stats, affinity and personality are not part of the stream.",
+    "version": 2,
+    "algorithm": "Seed commitment: SHA-256(server_seed). The first client_seed the game receives for an egg is locked on it. Stream: block(i)=HMAC-SHA256(server_seed, \"shards-roll-v1|\"+egg_id+\"|\"+client_seed+\"|\"+i) with i in decimal; words are consecutive 8-byte big-endian values of block(0)||block(1)||...; Uint64n(n) takes the next word w, skips it if w >= 2^64-(2^64 mod n), else returns w mod n. Hatch: if the player's pity target is of the egg's rarity and pity_counter+1 >= the receipt's pity_threshold the species is the target. Otherwise rarity = the tier whose cumulative units exceed Uint64n(total) in table[egg], then species = species[rarity][Uint64n(len)]. Then, for each name in stat_names in order, the stat is low + Uint64n(high-low+1) with [low, high] = stat_range[rarity] (just low when high <= low). Affinity and personality are rolled privately and are not part of the stream.",
     "total": 1000000000000,
     "tiers": [
       "common",
@@ -79,6 +79,34 @@
         "frost_hare",
         "glint_beetle",
         "ash_owl"
+      ]
+    },
+    "stat_names": [
+      "power",
+      "vigor",
+      "agility",
+      "mind"
+    ],
+    "stat_range": {
+      "common": [
+        1,
+        5
+      ],
+      "epic": [
+        10,
+        18
+      ],
+      "legendary": [
+        16,
+        28
+      ],
+      "rare": [
+        6,
+        12
+      ],
+      "uncommon": [
+        3,
+        8
       ]
     }
   }
