@@ -1,8 +1,8 @@
 {
-  "spec_hash": "aa077256ff8d2a7ef20566cc9ee6b90b2f89b0c147ce1007c5aeb7dff795d170",
+  "spec_hash": "6d7d05694d3c38cdcd3efa5ead5eb9f6684a586db746a9edc14a3152967cc4f3",
   "spec": {
-    "version": 1,
-    "algorithm": "Seed commitment: SHA-256(server_seed). Stream: block(i)=HMAC-SHA256(server_seed, \"shards-roll-v1|\"+egg_id+\"|\"+client_seed+\"|\"+i) with i in decimal; words are consecutive 8-byte big-endian values of block(0)||block(1)||...; Uint64n(n) takes the next word w, skips it if w >= 2^64-(2^64 mod n), else returns w mod n. Hatch: if the player's pity target is of the egg's rarity and pity_counter+1 >= the receipt's pity_threshold the species is the target. Otherwise rarity = the tier whose cumulative units exceed Uint64n(total) in table[egg], then species = species[rarity][Uint64n(len)]. Stats, affinity and personality are not part of the stream.",
+    "version": 2,
+    "algorithm": "Seed commitment: SHA-256(server_seed). The first client_seed the game receives for an egg is locked on it. Stream: block(i)=HMAC-SHA256(server_seed, \"shards-roll-v1|\"+egg_id+\"|\"+client_seed+\"|\"+i) with i in decimal; words are consecutive 8-byte big-endian values of block(0)||block(1)||...; Uint64n(n) takes the next word w, skips it if w >= 2^64-(2^64 mod n), else returns w mod n. Hatch: if the player's pity target is of the egg's rarity and pity_counter+1 >= the receipt's pity_threshold the species is the target. Otherwise rarity = the tier whose cumulative units exceed Uint64n(total) in table[egg], then species = species[rarity][Uint64n(len)]. Then, for each name in stat_names in order, the stat is low + Uint64n(high-low+1) with [low, high] = stat_range[rarity] (just low when high <= low). Affinity and personality are rolled privately and are not part of the stream.",
     "total": 1000000000000,
     "tiers": [
       "common",
@@ -79,6 +79,34 @@
         "glint_beetle",
         "ash_owl"
       ]
+    },
+    "stat_names": [
+      "power",
+      "vigor",
+      "agility",
+      "mind"
+    ],
+    "stat_range": {
+      "common": [
+        1,
+        5
+      ],
+      "epic": [
+        10,
+        18
+      ],
+      "legendary": [
+        16,
+        28
+      ],
+      "rare": [
+        6,
+        12
+      ],
+      "uncommon": [
+        3,
+        8
+      ]
     }
   },
   "cases": [
@@ -95,6 +123,12 @@
       "rarity": "common",
       "species": "moss_rat",
       "by_pity": false,
+      "stats": {
+        "agility": 1,
+        "mind": 1,
+        "power": 4,
+        "vigor": 4
+      },
       "first_words": [
         "14171639695693665463",
         "4764590227192687957",
@@ -117,6 +151,12 @@
       "rarity": "common",
       "species": "pebble_toad",
       "by_pity": false,
+      "stats": {
+        "agility": 3,
+        "mind": 3,
+        "power": 2,
+        "vigor": 5
+      },
       "first_words": [
         "7095014277580189044",
         "13730043264536046779",
@@ -139,6 +179,12 @@
       "rarity": "rare",
       "species": "crystal_stag",
       "by_pity": false,
+      "stats": {
+        "agility": 6,
+        "mind": 8,
+        "power": 8,
+        "vigor": 8
+      },
       "first_words": [
         "14409080682313992323",
         "1016524720199012213",
@@ -161,6 +207,12 @@
       "rarity": "rare",
       "species": "shadow_imp",
       "by_pity": false,
+      "stats": {
+        "agility": 7,
+        "mind": 7,
+        "power": 11,
+        "vigor": 12
+      },
       "first_words": [
         "3194762268311960512",
         "9937782217889403122",
@@ -183,6 +235,12 @@
       "rarity": "epic",
       "species": "void_cat",
       "by_pity": false,
+      "stats": {
+        "agility": 12,
+        "mind": 12,
+        "power": 17,
+        "vigor": 10
+      },
       "first_words": [
         "7431595574431972042",
         "3568621572666926162",
@@ -205,6 +263,12 @@
       "rarity": "rare",
       "species": "tide_serpent",
       "by_pity": false,
+      "stats": {
+        "agility": 12,
+        "mind": 8,
+        "power": 8,
+        "vigor": 10
+      },
       "first_words": [
         "9246717565746192020",
         "76746858366329259",
@@ -227,6 +291,12 @@
       "rarity": "rare",
       "species": "storm_lynx",
       "by_pity": true,
+      "stats": {
+        "agility": 10,
+        "mind": 10,
+        "power": 6,
+        "vigor": 11
+      },
       "first_words": [
         "8957335133614520226",
         "12683432641211377582",

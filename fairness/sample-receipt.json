@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "spec_hash": "aa077256ff8d2a7ef20566cc9ee6b90b2f89b0c147ce1007c5aeb7dff795d170",
+  "version": 2,
+  "spec_hash": "6d7d05694d3c38cdcd3efa5ead5eb9f6684a586db746a9edc14a3152967cc4f3",
   "companion_id": "sample-companion",
   "egg_id": "7d0e8d8e-5d2b-4a3a-9f55-0a1b2c3d4e5f",
   "egg_rarity": "rare",
@@ -16,7 +16,13 @@
   "result": {
     "species": "crystal_stag",
     "rarity": "rare",
-    "by_pity": false
+    "by_pity": false,
+    "stats": {
+      "agility": 6,
+      "mind": 8,
+      "power": 8,
+      "vigor": 8
+    }
   },
   "created_at": 0
 }

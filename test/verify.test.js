@@ -18,7 +18,7 @@ function receiptOf(c) {
     version: spec.version, spec_hash: vectors.spec_hash, committed: true,
     egg_id: c.egg_id, egg_rarity: c.egg, commitment: c.commitment, server_seed: c.server_seed, client_seed: c.client_seed,
     pity_before: { target: c.pity_target, counter: c.pity_counter, threshold: c.pity_threshold },
-    result: { species: c.species, rarity: c.rarity, by_pity: c.by_pity },
+    result: { species: c.species, rarity: c.rarity, by_pity: c.by_pity, stats: { ...c.stats } },
   };
 }
 
@@ -47,6 +47,11 @@ test('every vector replays to the same rarity, species and pity flag', async () 
       pityTarget: c.pity_target, pityCounter: c.pity_counter, pityThreshold: c.pity_threshold,
     });
     assert.deepEqual([r.rarity, r.species, r.byPity], [c.rarity, c.species, c.by_pity], c.name);
+    assert.deepEqual(r.stats, c.stats, `${c.name}: stats`);
+    for (const name of spec.stat_names) {
+      const [lo, hi] = spec.stat_range[r.rarity];
+      assert.ok(r.stats[name] >= lo && r.stats[name] <= hi, `${c.name}: ${name} outside [${lo}, ${hi}]`);
+    }
     assert.equal(await sha256Hex(hexToBytes(c.server_seed)), c.commitment, `${c.name}: commitment`);
   }
 });
@@ -73,6 +78,10 @@ test('a tampered receipt fails the right check', async () => {
   // A forged result: the replay disagrees.
   const other = vectors.cases.find((x) => x.species !== c.species && x.egg === c.egg) || vectors.cases.find((x) => x.species !== c.species);
   assert.ok((await failing((r) => { r.result.species = other.species; r.result.rarity = other.rarity; })).includes('replay'));
+  // A receipt with one stat nudged up, the way a server would favour a friend: the replay disagrees.
+  assert.ok((await failing((r) => { r.result.stats.power += 1; })).includes('replay'));
+  // A receipt with no stats at all (a version-1 style receipt) cannot pass.
+  assert.ok((await failing((r) => { delete r.result.stats; })).includes('replay'));
   // A different client seed rolls a different stream.
   const changedSeed = await failing((r) => { r.client_seed = r.client_seed + 'x'; });
   assert.ok(changedSeed.includes('replay') || changedSeed.length === 0 || true); // may coincide by chance; the stream test above is the real guard
