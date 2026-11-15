@@ -2,15 +2,15 @@
 // (internal/companions/testdata/fairness_vectors.json), so the two implementations cannot drift.
 //
 //   npm test
-import test from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import { RollStream, hexToBytes, percent, replayRoll, sha256Hex, specHash, verifyReceipt } from '../fairness/verify.js';
+import { RollStream, hexToBytes, percent, replayRoll, sha256Hex, specHash, verifyReceipt } from '../src/lib/fairness/verify.js';
 
 const read = (p) => JSON.parse(readFileSync(new URL(p, import.meta.url), 'utf8'));
 const vectors = read('./vectors.json');
-const published = read('../fairness/spec.json');
+const published = read('../src/lib/fairness/spec.json');
 const spec = vectors.spec;
 
 function receiptOf(c) {

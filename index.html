@@ -1,18 +1,4 @@
 <!doctype html>
-<!--
-  SITE CONFIG. Every URL and placeholder worth changing is listed here; search this file for TODO and [BRACKETS].
-
-  Google Form (playtest sign-up):  https://forms.gle/JztENTASrQ2obUgK8
-  Launcher download:               PAUSED (see "download:paused" in the page). The file is https://api.sandbox.theshardsgame.com/releases/files/TheShardsLauncher.exe
-                                   TODO: switch to the production API address when there is one.
-  Launcher version, size, SHA-256: written by `node scripts/sync-launcher.js` (see README). Re-run it when the launcher changes.
-  Discord (feedback and Contact):  https://discord.gg/fsArCAUU5   (join requests are approved by the team)
-  Legal documents:                 not written yet, the cards say "Coming soon". When a PDF is ready, put it in legal/ (see legal/README.md),
-                                   replace "Coming soon" with "Last updated <date>" and add <a class="link-row" href="/legal/<file>.pdf" target="_blank" rel="noopener">Open PDF</a>.
-  Playtest dates: March 10 to April 1, 2027 (appears twice: the intro and "What to expect").
-
-  The fonts only have plain ASCII (32 to 126): no accents, curly quotes, dashes or middle dots. Keep copy to ASCII.
--->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -30,131 +16,11 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/Pixelwick.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/shards.css">
+  <!-- The Content-Security-Policy meta is added by vite.config.js when the site is built (see csp.js). -->
 </head>
 <body>
-<a class="skip" href="#top">Skip to content</a>
-
-<header class="container site-header">
-  <a class="brand" href="#top"><img src="/assets/logo.png" alt="">The Shards</a>
-  <nav class="nav" aria-label="Main">
-    <a href="/fairness/">Fair rolls</a>
-    <a href="#download">Launcher</a>
-    <a href="#legal">Terms</a>
-    <a class="nav-cta" href="#playtest">Join the playtest</a>
-  </nav>
-</header>
-
-<main id="top">
-
-  <section class="container hero" aria-labelledby="hero-title">
-    <div class="hero-art">
-      <img src="/assets/logo.png" alt="The Shards logo: a crown above crossed broken chains and green leaves">
-    </div>
-    <div class="hero-text">
-      <div class="badge">CLOSED PLAYTEST - WAVE ONE</div>
-      <h1 id="hero-title" class="display-h1">Every player a world-forger.</h1>
-      <p>The Shards is a gem: a place where any person can create their own MMORPG, and where players can step into every world that has been forged.</p>
-      <div class="button-row">
-        <a class="btn btn-fill" href="#playtest">Join the playtest</a>
-        <a class="btn btn-outline" href="#download">Get the launcher</a>
-      </div>
-      <div class="muted">Closed waves. No spam, one mail per wave.</div>
-    </div>
-  </section>
-
-  <section id="playtest" class="band band-both" aria-labelledby="playtest-title">
-    <div class="container section-inner">
-      <div class="section-head">
-        <h2 id="playtest-title" class="display-h2">Join the playtest</h2>
-        <p>Sign up with our Google Form. Closed waves. No spam, one mail per wave. Wave one runs from March 10 to April 1, 2027.</p>
-      </div>
-      <div class="card-row">
-        <div class="card on-bg shadow pad-32 wide">
-          <div class="card-title">Sign up on Google Forms</div>
-          <div class="body">Closed waves. No spam, one mail per wave.</div>
-          <a class="btn btn-fill self-start" href="https://forms.gle/JztENTASrQ2obUgK8" target="_blank" rel="noopener noreferrer">Open the signup form</a>
-          <div class="muted">By signing up you agree to the <a href="#legal">Terms and Conditions</a> and the <a href="#legal">Privacy Policy</a>.</div>
-        </div>
-        <div class="card pad-32">
-          <div class="card-title">What to expect</div>
-          <div class="body">Enter realms, fight enemies, gather materials and leave with your loot. Hatch, raise and trade companions.</div>
-          <div class="body">Wave one runs for about three weeks, from March 10 to April 1, 2027.</div>
-          <div class="body">Send feedback on our <a href="https://discord.gg/fsArCAUU5" target="_blank" rel="noopener noreferrer">Discord</a>. The team approves join requests.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="download" class="container" aria-labelledby="download-title">
-    <div class="section-head">
-      <h2 id="download-title" class="display-h2">Download the launcher</h2>
-      <p>Download the launcher to play. The game is only available for Windows right now.</p>
-    </div>
-    <div class="card-row gap-24">
-      <!-- download:paused (2026-11-14) -->
-      <div class="card on-panel shadow pad-28 download">
-        <div class="card-title">Windows</div>
-        <div class="body">The launcher opens for download when wave one starts, on March 10, 2027.</div>
-        <div class="muted">Join the playtest to be told when it is ready.</div>
-      </div>
-      <!-- The live card, to restore when the download opens: replace the card above with this one,
-           then run `node scripts/sync-launcher.js` and delete the download:paused line.
-      <div class="card on-panel shadow pad-28 download">
-        <div class="card-title">Windows</div>
-        <div class="body">Launcher v<span data-launcher="version">0.1.0</span> / <span data-launcher="size">6.5</span> MB</div>
-        <a class="btn btn-fill self-start" data-launcher="link" href="https://api.sandbox.theshardsgame.com/releases/files/TheShardsLauncher.exe">Download</a>
-        <div class="muted break">SHA-256: <span data-launcher="sha256">cdec36062a163728fefdc01d8863a63c8d4aa24b44a254dec400ed893507842f</span></div>
-      </div>
-      -->
-    </div>
-    <div class="card pad-28">
-      <div class="card-title">System requirements</div>
-      <div class="body">Windows 10 or 11, 64-bit. A graphics card that supports OpenGL 3.3. About 250 MB of free disk space. 1 GB of RAM. An internet connection: the game is online only.</div>
-    </div>
-  </section>
-
-  <section id="legal" class="band" aria-labelledby="legal-title">
-    <div class="container section-inner">
-      <div class="section-head">
-        <h2 id="legal-title" class="display-h2">Terms and policies</h2>
-        <p>Read these before you play. Each document opens as a PDF.</p>
-      </div>
-      <div class="card-row gap-24">
-        <div class="card on-bg pad-28">
-          <div class="card-title">Terms and Conditions</div>
-          <div class="muted">Coming soon</div>
-        </div>
-        <div class="card on-bg pad-28">
-          <div class="card-title">Privacy Policy</div>
-          <div class="muted">Coming soon</div>
-        </div>
-        <div class="card on-bg pad-28">
-          <div class="card-title">Playtest Agreement</div>
-          <div class="muted">Coming soon</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-left">
-      <div class="brand">The Shards</div>
-      <div class="muted">Copyright 2026 Shards. All rights reserved.</div>
-      <div class="footer-links">
-        <a class="link-row" href="#legal">Terms</a>
-        <a class="link-row" href="#legal">Privacy</a>
-        <a class="link-row" href="https://discord.gg/fsArCAUU5" target="_blank" rel="noopener noreferrer">Contact</a>
-      </div>
-    </div>
-    <div class="footer-right">
-      <a class="link-row" href="/fairness/">Fair rolls: check any egg</a>
-      <span class="slogan">Made by gamers for gamers</span>
-    </div>
-  </div>
-</footer>
+<div id="root"></div>
+<noscript>The Shards site needs JavaScript to log in and to check fair rolls.</noscript>
+<script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
