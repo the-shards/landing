@@ -1,0 +1,76 @@
+# Deploys the site to S3 + CloudFront (sandbox). See README-deploy.md: nothing here has been run against AWS yet.
+#
+# Trigger: push to the `sandbox` branch, or a manual run of this workflow on it.
+# Flow: OIDC login to AWS, npm ci, build with VITE_API_BASE, sync dist/ to S3, invalidate CloudFront.
+#
+# GitHub Environment `sandbox`:
+#   secret    AWS_ROLE_ARN                IAM role the workflow assumes (trust policy: this repo, branch sandbox)
+#   variable  AWS_REGION                  region of the bucket, e.g. us-east-1
+#   variable  S3_BUCKET                   bucket name
+#   variable  CLOUDFRONT_DISTRIBUTION_ID  distribution id
+#   variable  VITE_API_BASE               API address baked into the build, e.g. https://api.sandbox.theshardsgame.com
+
+name: Deploy to S3 + CloudFront
+
+on:
+  push:
+    branches: [sandbox]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    name: Build, sync to S3, invalidate CloudFront
+    if: github.ref_name == 'sandbox'
+    runs-on: ubuntu-latest
+    environment: sandbox
+    concurrency:
+      group: deploy-landing-sandbox
+      cancel-in-progress: false
+    steps:
+      - name: Check out code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        env:
+          VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Sync to S3
+        env:
+          BUCKET: ${{ vars.S3_BUCKET }}
+        run: |
+          # Hashed bundles (dist/static) never change under the same name: cache them for a year. Upload them first so the new index.html never points at a file that is not there yet.
+          aws s3 sync dist/static "s3://$BUCKET/static" --delete --cache-control "public,max-age=31536000,immutable"
+          # Fonts, logo and icons keep their names: one day.
+          aws s3 sync dist/ "s3://$BUCKET" --delete --exclude "index.html" --exclude "static/*" --cache-control "public,max-age=86400"
+          # index.html last, never cached: it is what points at the current bundles.
+          aws s3 cp dist/index.html "s3://$BUCKET/index.html" --cache-control "no-cache" --content-type "text/html; charset=utf-8"
+
+      - name: Invalidate CloudFront
+        env:
+          DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"
