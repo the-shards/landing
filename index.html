@@ -3,7 +3,7 @@
   SITE CONFIG. Every URL and placeholder worth changing is listed here; search this file for TODO and [BRACKETS].
 
   Google Form (playtest sign-up):  https://forms.gle/JztENTASrQ2obUgK8
-  Launcher download:               https://api.sandbox.theshardsgame.com/releases/files/TheShardsLauncher.exe
+  Launcher download:               PAUSED (see "download:paused" in the page). The file is https://api.sandbox.theshardsgame.com/releases/files/TheShardsLauncher.exe
                                    TODO: switch to the production API address when there is one.
   Launcher version, size, SHA-256: written by `node scripts/sync-launcher.js` (see README). Re-run it when the launcher changes.
   Discord (feedback and Contact):  https://discord.gg/fsArCAUU5   (join requests are approved by the team)
@@ -92,12 +92,21 @@
       <p>Download the launcher to play. The game is only available for Windows right now.</p>
     </div>
     <div class="card-row gap-24">
+      <!-- download:paused (2026-11-14) -->
+      <div class="card on-panel shadow pad-28 download">
+        <div class="card-title">Windows</div>
+        <div class="body">The launcher opens for download when wave one starts, on March 10, 2027.</div>
+        <div class="muted">Join the playtest to be told when it is ready.</div>
+      </div>
+      <!-- The live card, to restore when the download opens: replace the card above with this one,
+           then run `node scripts/sync-launcher.js` and delete the download:paused line.
       <div class="card on-panel shadow pad-28 download">
         <div class="card-title">Windows</div>
         <div class="body">Launcher v<span data-launcher="version">0.1.0</span> / <span data-launcher="size">6.5</span> MB</div>
         <a class="btn btn-fill self-start" data-launcher="link" href="https://api.sandbox.theshardsgame.com/releases/files/TheShardsLauncher.exe">Download</a>
         <div class="muted break">SHA-256: <span data-launcher="sha256">cdec36062a163728fefdc01d8863a63c8d4aa24b44a254dec400ed893507842f</span></div>
       </div>
+      -->
     </div>
     <div class="card pad-28">
       <div class="card-title">System requirements</div>

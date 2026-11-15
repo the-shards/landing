@@ -107,7 +107,8 @@ test('the download card points at the launcher on the API and shows a real check
   assert.match(home.match(/data-launcher="sha256">([^<]*)</)[1], /^[0-9a-f]{64}$/, 'run scripts/sync-launcher.js');
   assert.match(home.match(/data-launcher="version">([^<]*)</)[1], /^\d+\.\d+\.\d+$/);
   assert.match(home.match(/data-launcher="size">([^<]*)</)[1], /^\d+\.\d$/);
-  assert.equal([...home.matchAll(/class="card-title">(Windows|macOS|Linux)</g)].length, 1, 'only a Windows card');
+  const visibleHome = home.replace(/<!--[\s\S]*?-->/g, '');
+  assert.equal([...visibleHome.matchAll(/class="card-title">(Windows|macOS|Linux)</g)].length, 1, 'only a Windows card');
 });
 
 test('sync-launcher describes and patches the card', () => {
@@ -132,4 +133,15 @@ test('no placeholder is left on the page', () => {
     assert.deepEqual(left, [], `${name} still has placeholders: ${left.join(' ')}`);
   }
   assert.ok(!/href="#"/.test(pages['index.html'].replace(/<!--[\s\S]*?-->/g, '')), 'no link that goes nowhere');
+});
+
+test('while the download is paused, nothing visible on the page links to the launcher', () => {
+  const home = pages['index.html'];
+  const visible = home.replace(/<!--[\s\S]*?-->/g, '');
+  if (home.includes('<!-- download:paused')) {
+    assert.ok(!visible.includes('TheShardsLauncher'), 'the download is paused but the page still links to the launcher');
+    assert.ok(!visible.includes('data-launcher="link"'), 'the download is paused but a live download button is on the page');
+  } else {
+    assert.ok(visible.includes('data-launcher="link"'), 'the download is live: the card needs its button');
+  }
 });
