@@ -205,6 +205,22 @@ describe('download', () => {
     expect(screen.getByRole('button', { name: 'Download for Windows' }).disabled).toBe(true);
   });
 
+  test('a suspended account is told so and cannot download', async () => {
+    const api = fakeApi({ session: SESSION, launcherInfo: vi.fn(async () => { throw fail('download', 'forbidden', 403); }) });
+    mount('/download', api);
+    expect((await screen.findByRole('alert')).textContent).toBe('[X] This account is suspended. If you think this is a mistake, ask on Discord.');
+    expect(screen.getByRole('button', { name: 'Download for Windows' }).disabled).toBe(true);
+    expect(document.getElementById('launcher-sha256')).toBeNull();
+  });
+
+  test('a ticket refused because the account was suspended meanwhile shows the same message', async () => {
+    const api = fakeApi({ session: SESSION, launcherDownloadUrl: vi.fn(async () => { throw fail('download', 'forbidden', 403); }) });
+    mount('/download', api);
+    await screen.findByText('0.1.0');
+    fireEvent.click(screen.getByRole('button', { name: 'Download for Windows' }));
+    expect((await screen.findByRole('alert')).textContent).toBe('[X] This account is suspended. If you think this is a mistake, ask on Discord.');
+  });
+
   test('log out clears the session and leaves the page', async () => {
     const api = fakeApi({ session: SESSION });
     mount('/download', api);

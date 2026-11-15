@@ -122,6 +122,7 @@ export function messageFor(context, kind, retryAfter = null) {
   if (context === 'download') {
     if (kind === 'unauthorized') return 'Your session has ended, log in again';
     if (kind === 'unavailable') return 'The launcher is not published yet. Try again soon.';
+    if (kind === 'forbidden') return 'This account is suspended. If you think this is a mistake, ask on Discord.';
   }
   return 'Something went wrong, try again in a moment';
 }

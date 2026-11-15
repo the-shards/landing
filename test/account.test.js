@@ -109,6 +109,7 @@ describe('error mapping', () => {
     ['login', 'network', 'Cannot reach the server'],
     ['download', 'unavailable', 'The launcher is not published yet. Try again soon.'],
     ['download', 'unauthorized', 'Your session has ended, log in again'],
+    ['download', 'forbidden', 'This account is suspended. If you think this is a mistake, ask on Discord.'],
   ])('%s %s', (context, kind, text) => expect(messageFor(context, kind)).toBe(text));
 
   test('a login lock-out says how long', () => {
