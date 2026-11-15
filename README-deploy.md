@@ -81,6 +81,8 @@ aws cloudfront create-response-headers-policy --response-headers-policy-config f
 1. In IAM add the OpenID Connect provider `token.actions.githubusercontent.com` (audience `sts.amazonaws.com`) if the account does not have it.
 2. Create the role `<DEPLOY_ROLE_NAME>` with this **trust policy**. The deploy job uses the GitHub Environment `sandbox`, and for a job with an environment GitHub puts the *environment* in the token subject (not the branch), so the subject below is the environment. To keep it to the `sandbox` branch, set the environment's "Deployment branches" to `sandbox` only (Settings, Environments, sandbox).
 
+   **The subject on this organisation includes numeric IDs.** GitHub puts `repo:<owner>@<owner id>/<repo>@<repo id>:environment:<name>` in the token here (for the-shards/landing: `repo:the-shards@219078991/landing@1362227840:environment:sandbox`), not the plain `repo:the-shards/landing:...` form, so a trust policy written with the plain form is refused with "Not authorized to perform sts:AssumeRoleWithWebIdentity". The IDs make it stricter: a renamed or re-created repo no longer matches. To read the real value for any repo, look at the failed `AssumeRoleWithWebIdentity` event in CloudTrail (`userIdentity.userName`), or ask GitHub: `gh api repos/<owner>/<repo>/actions/oidc/customization/sub`.
+
 ```json
 {
   "Version": "2012-10-17",
@@ -92,7 +94,7 @@ aws cloudfront create-response-headers-policy --response-headers-policy-config f
       "Condition": {
         "StringEquals": {
           "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-          "token.actions.githubusercontent.com:sub": "repo:the-shards/landing:environment:sandbox"
+          "token.actions.githubusercontent.com:sub": "repo:the-shards@219078991/landing@1362227840:environment:sandbox"
         }
       }
     }
