@@ -75,6 +75,17 @@ export default function Download() {
         </div>
       </section>
 
+      <section aria-labelledby="install-title">
+        <h2 id="install-title" className="display-h2">What happens when you run it</h2>
+        <div className="card pad-28">
+          <ol className="steps">
+            <li className="body">Run the launcher. It asks once if you want to install The Shards, with a Start menu entry and an optional desktop shortcut, and then downloads the game.</li>
+            <li className="body">After that, open <span className="em">The Shards</span> from the Start menu or your desktop. It checks for updates every time you start it.</li>
+            <li className="body">To remove the game, go to <span className="em">Settings, Apps, The Shards</span>.</li>
+          </ol>
+        </div>
+      </section>
+
       <section aria-labelledby="unsigned-title">
         <h2 id="unsigned-title" className="display-h2">Before you run it</h2>
         <div className="card pad-28">
