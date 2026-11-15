@@ -49,6 +49,8 @@ No `[BRACKET]` placeholders are left on the page (`npm test` fails if one comes 
 
 ## The launcher download
 
+**Paused since 2026-11-14.** The card says the launcher opens when wave one starts, and the real card (button, version, size, SHA-256) is kept in a comment next to it. To open the download again, put the real card back in place of the paused one, run `node scripts/sync-launcher.js`, and delete the `download:paused` line. `npm test` checks that nothing links to the launcher while it is paused.
+
 The Download button links straight to the launcher the API serves (`<api>/releases/files/TheShardsLauncher.exe`), so a browser downloads it directly from the site. The version, size and SHA-256 next to it are written, not typed:
 
 ```
