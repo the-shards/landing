@@ -1,7 +1,7 @@
 {
   "name": "the-shards-landing",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "description": "Landing site, accounts and fair-roll verifier for The Shards (React + Vite, served from S3 + CloudFront).",
   "scripts": {
