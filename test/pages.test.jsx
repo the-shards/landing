@@ -172,6 +172,8 @@ describe('download', () => {
     expect(screen.getByText('ana')).toBeTruthy();
     expect(screen.getByText(/unknown publisher/)).toBeTruthy();
     expect(screen.getByText(/OpenGL 3.3/)).toBeTruthy();
+    expect(screen.getByText(/Start menu entry/)).toBeTruthy();
+    expect(screen.getByText(/Settings, Apps, The Shards/)).toBeTruthy();
   });
 
   test('the button asks for a ticket and navigates the browser to it', async () => {
